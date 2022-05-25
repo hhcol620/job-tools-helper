@@ -1,13 +1,11 @@
 
 // ==UserScript==
-// @name         nf招聘助手
+// @name         求职助手
 // @namespace    http://tampermonkey.net/
-// @version      0.6
-// @description  1.推荐牛人，批量打招呼;支持BOSS、智联、前程
+// @version      0.1
+// @description  1.跟列表中招聘方自动化打招呼;目前支持 boss
 // @author       You
 // @match        https://www.zhipin.com/*
-// @match        https://rd5.zhaopin.com/*
-// @match        https://ehire.51job.com/*
 // @grant        none
 // ==/UserScript==
 
