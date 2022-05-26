@@ -3,8 +3,7 @@
 // @name         jobs-tools
 // @namespace    http://tampermonkey.net/
 // @version      0.6
-// @description  1.推荐牛人，批量打招呼;支持BOSS
-// @description  2.拉勾自动投递简历
+// @description  1.推荐牛人，批量打招呼;支持BOSS、智联、前程
 // @author       You
 // @match        https://www.zhipin.com/*
 // @match        https://www.lagou.com/*
@@ -63,10 +62,11 @@
                         ct++;
                         window.localStorage.setItem('job-ct', ct);
                         if(ct >= len) {
-                            let next = document.querySelector(".lg-pagination-item-link");
+                            let next = document.querySelector('.lg-pagination-next');
                             ct = 0;
                             window.localStorage.setItem('job-ct', ct);
                             next.click();
+                            window.location.reload();
                         }
                     } else {
                         console.log('列表为空');
