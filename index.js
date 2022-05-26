@@ -56,6 +56,7 @@
                  el.innerText = "停止打招呼(" + ct + "/" + len + ")";
                 function callFn() {
                     if (len) {
+                        ct = +window.localStorage.getItem('job-ct') || 1;
                         let pId = lst[ct - 1].positionId;
                         el.innerText = "停止打招呼(" + ct + "/" + len + ")";
                         window.open("https://www.lagou.com/wn/jobs/" + pId + ".html", "_blank")
