@@ -2,7 +2,7 @@
 // ==UserScript==
 // @name         jobs-tools
 // @namespace    http://tampermonkey.net/
-// @version      0.6
+// @version      0.1
 // @description  1.推荐牛人，批量打招呼;支持BOSS、拉勾、猎聘
 // @author       You
 // @match        https://www.zhipin.com/*
