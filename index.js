@@ -2,8 +2,8 @@
 // ==UserScript==
 // @name         jobs-tools
 // @namespace    http://tampermonkey.net/
-// @version      0.1
-// @description  1.推荐牛人，批量打招呼;支持BOSS、拉勾、猎聘
+// @version      0.3
+// @description  1.boss直聘 自动打招呼 2.拉勾 自动投递简历 3.猎聘 自动打招呼 
 // @author       You
 // @match        https://www.zhipin.com/*
 // @match        https://www.lagou.com/*
