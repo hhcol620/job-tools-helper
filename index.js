@@ -62,11 +62,9 @@
                         ct++;
                         window.localStorage.setItem('job-ct', ct);
                         if(ct >= len) {
-                            let next = document.querySelector('.lg-pagination-next');
                             ct = 0;
                             window.localStorage.setItem('job-ct', ct);
-                            next.click();
-                            window.location.reload();
+                            document.querySelector('.lg-pagination-next').click();
                         }
                     } else {
                         console.log('列表为空');
