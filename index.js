@@ -3,16 +3,18 @@
 // @name         jobs-tools
 // @namespace    http://tampermonkey.net/
 // @version      0.6
-// @description  1.推荐牛人，批量打招呼;支持BOSS、智联、前程
+// @description  1.推荐牛人，批量打招呼;支持BOSS、拉勾、猎聘
 // @author       You
 // @match        https://www.zhipin.com/*
 // @match        https://www.lagou.com/*
+// @match        https://www.liepin.com/*
 // @grant        none
 // ==/UserScript==
 
 (function () {
     "use strict";
     // 拉勾平台列表  __NEXT_DATA__.props.pageProps.initData.content.positionResult.result
+    // 猎聘平台 document.querySelector('.chat-btn-box .ant-btn').click()
     var retryCheck = function (
         checkFun,
         interval,
@@ -50,7 +52,7 @@
             window.localStorage.setItem('toolChecking', true);
             let lst = 0;
             if(window.location.href.startsWith('https://www.lagou.com/wn/jobs')) {
-                console.log('拉勾')
+                console.log('拉勾助手');
                  lst = window.__NEXT_DATA__.props.pageProps.initData.content.positionResult.result;
                  let len = lst.length;
                  el.innerText = "停止打招呼(" + ct + "/" + len + ")";
@@ -74,7 +76,33 @@
                 setInterval(() => {
                     callFn();
                 }, 6000)
-            } else {
+            }
+            else if (window.location.href.startsWith('https://www.liepin.com/zhaopin/')) {
+                console.log('猎聘助手');
+                lst = document.querySelectorAll(".left-list-box .job-list-item");
+                let len = lst.length;
+                el.innerText = "停止打招呼(" + ct + "/" + len + ")";
+                function callFn() {
+                    if (len) {
+                        let sel = lst[ct - 1].querySelector(".chat-btn-box button");
+                        el.innerText = "停止打招呼(" + ct + "/" + len + ")";
+                        sel.click();
+                        ct++;
+                        window.localStorage.setItem('job-ct', ct);
+                        if(ct >= len) {
+                            ct = 0;
+                            window.localStorage.setItem('job-ct', ct);
+                            document.querySelector(".ant-pagination-next button").click()
+                        }
+                    } else {
+                        console.log('列表为空');
+                    }
+                }
+                setInterval(() => {
+                    callFn();
+                }, 3000);
+            }
+            else {
                 lst = document.querySelectorAll(".job-list .job-primary");
                 let len = lst.length;
                 el.innerText = "停止打招呼(" + ct + "/" + len + ")";
@@ -116,7 +144,7 @@
         }
     };
     ((_) => {
-            console.log('jobs tools start');
+            console.log('jobs tools start ============================================');
             if(window.location.href.startsWith('https://www.zhipin.com/web/geek/chat')) {
                 setTimeout(() => {
                     console.log('test setTimeout')
@@ -180,6 +208,32 @@
                     retryCheck(
                         (_) => {
                             let lst = window.__NEXT_DATA__.props.pageProps.initData.content.positionResult.result;
+                            return lst && lst.length > 0;
+                        },
+                        100,
+                        (_) => {
+                            document.querySelector("body").appendChild(el);
+                            ((_) => {
+                                bossHandle(_, true);
+                            })()
+                            el.addEventListener(
+                                "click",
+                                bossHandle,
+                                false
+                            );
+                        }
+                    );
+                }
+            }
+            if (window.location.host === "www.liepin.com") {
+                if (
+                    window.location.href.startsWith(
+                        "https://www.liepin.com/"
+                    )
+                ) {
+                    retryCheck(
+                        (_) => {
+                            let lst = document.querySelectorAll(".left-list-box .job-list-item");
                             return lst && lst.length > 0;
                         },
                         100,
