@@ -2,7 +2,7 @@
 // ==UserScript==
 // @name         jobs-tools
 // @namespace    http://tampermonkey.net/
-// @version      0.3
+// @version      0.4
 // @description  1.boss直聘 自动打招呼 2.拉勾 自动投递简历 3.猎聘 自动打招呼 
 // @author       You
 // @match        https://www.zhipin.com/*
@@ -15,6 +15,14 @@
     "use strict";
     // 拉勾平台列表  __NEXT_DATA__.props.pageProps.initData.content.positionResult.result
     // 猎聘平台 document.querySelector('.chat-btn-box .ant-btn').click()
+
+    let el = document.createElement("button");
+    el.setAttribute(
+        "style",
+        "width:140px;height:30px;border:0;color:#fff;background-color:#67C23A;cursor:pointer;outline: none;position: absolute; top: 0; left: 0;z-index:99999;"
+    );
+    el.innerText = "自动打招呼";
+    el.id = "jobs-tools";
     var retryCheck = function (
         checkFun,
         interval,
@@ -38,19 +46,20 @@
         }, interval);
     };
     var bossHandle = function (e, isHandle = false) {
-        let el = document.querySelector(".tools-btn");
+        let el = document.querySelector("#jobs-tools");
+        console.log('el', el);
         let checking = window.localStorage.getItem('toolChecking') === 'true' || false;
         console.log('checking', checking)
         let closeHandle = () => {
             el.innerText = "自动打招呼";
-            el.style.background = "#67C23A";
+            el.style.backgroundColor = "#67C23A";
             checking = window.localStorage.setItem('toolChecking', false);
         }
         let openHandle = () => {
-            el.style.background = "#E6A23C";
+            el.style.backgroundColor = "#E6A23C";
             let ct = +window.localStorage.getItem('job-ct') || 1;
             window.localStorage.setItem('toolChecking', true);
-            let lst = 0;
+            let lst;
             if(window.location.href.startsWith('https://www.lagou.com/wn/jobs')) {
                 console.log('拉勾助手');
                  lst = window.__NEXT_DATA__.props.pageProps.initData.content.positionResult.result;
@@ -106,27 +115,27 @@
                 lst = document.querySelectorAll(".job-list .job-primary");
                 let len = lst.length;
                 el.innerText = "停止打招呼(" + ct + "/" + len + ")";
+                console.log('boss 直聘=================', ct, len)
                 function callFn() {
                     if (len) {
-                        let sel = lst[ct - 1].querySelector(".btn.btn-startchat");
-                        el.innerText = "停止打招呼(" + ct + "/" + len + ")";
-                        sel.click();
-                        ct++;
                         if(ct >= len) {
-                            let next = document.querySelector(".next");
-                            console.log("next", next);
                             ct = 0;
                             window.localStorage.setItem('job-ct', ct);
+                            let next = document.querySelector(".next");
+                            console.log("next", next);
                             next.click();
                         }
+                        let sel = lst[ct - 1].querySelector(".btn.btn-startchat");
+                        sel.click();
+                        ct++;
                         window.localStorage.setItem('job-ct', ct);
                     } else {
                         console.log('列表为空');
                     }
                 }
-                setInterval(() => {
+                setTimeout(() => {
                     callFn();
-                }, 8000)
+                }, 9000)
             }
         }
         if(isHandle) {
@@ -163,16 +172,6 @@
                     }, 2000)
                 }
             }
-            let el = document.createElement("button");
-            el.setAttribute(
-                "style",
-                "width:140px;height:30px;border:0;color:#fff;background-color:#67C23A;cursor:pointer;outline: none;position: absolute; top: 0; left: 0;z-index:99999;"
-            );
-            el.setAttribute(
-                "class",
-                "tools-btn"
-            )
-            el.innerText = "自动打招呼";
             if (window.location.host === "www.zhipin.com") {
                 if (
                     window.location.href.startsWith(
