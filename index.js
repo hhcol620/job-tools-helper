@@ -112,8 +112,9 @@
                 }, 3000);
             }
             else {
-                lst = document.querySelectorAll(".job-list .job-primary");
+                lst = document.querySelectorAll(".job-list-box > li");
                 let len = lst.length;
+                console.log('lst=======', lst)
                 el.innerText = "停止打招呼(" + ct + "/" + len + ")";
                 console.log('boss 直聘=================', ct, len)
                 function callFn() {
@@ -121,12 +122,16 @@
                         if(ct >= len) {
                             ct = 0;
                             window.localStorage.setItem('job-ct', ct);
-                            let next = document.querySelector(".next");
+                            let next = document.querySelector(".options-pages > a:last-child");
                             console.log("next", next);
                             next.click();
+                            location.reload();
                         }
-                        let sel = lst[ct - 1].querySelector(".btn.btn-startchat");
+                        let sel = lst[ct - 1].querySelector(".start-chat-btn");
                         sel.click();
+                        setTimeout(() => {
+                            location.reload();
+                        })
                         ct++;
                         window.localStorage.setItem('job-ct', ct);
                     } else {
@@ -135,7 +140,7 @@
                 }
                 setTimeout(() => {
                     callFn();
-                }, 9000)
+                }, 6000)
             }
         }
         if(isHandle) {
@@ -180,7 +185,7 @@
                 ) {
                     retryCheck(
                         (_) => {
-                            let lst = document.querySelectorAll(".job-list ul li .job-primary");
+                            let lst = document.querySelectorAll(".job-list-box > li");
                             return lst && lst.length > 0;
                         },
                         100,
