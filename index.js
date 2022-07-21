@@ -2,7 +2,7 @@
 // ==UserScript==--
 // @name         jobs-tools
 // @namespace    http://tampermonkey.net/
-// @version      0.4
+// @version      0.5
 // @description  1.boss直聘 自动打招呼 2.拉勾 自动投递简历 3.猎聘 自动打招呼 
 // @author       You
 // @match        https://www.zhipin.com/*
