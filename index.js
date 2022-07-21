@@ -1,5 +1,5 @@
 
-// ==UserScript==
+// ==UserScript==--
 // @name         jobs-tools
 // @namespace    http://tampermonkey.net/
 // @version      0.4
