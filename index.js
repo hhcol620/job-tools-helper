@@ -2,12 +2,13 @@
 // ==UserScript==--
 // @name         jobs-tools
 // @namespace    http://tampermonkey.net/
-// @version      0.5
-// @description  1.boss直聘 自动打招呼 2.拉勾 自动投递简历 3.猎聘 自动打招呼 
+// @version      0.7
+// @description  1.boss直聘 自动打招呼 2.拉勾 自动投递简历 3.猎聘 自动打招呼
 // @author       You
 // @match        https://www.zhipin.com/*
 // @match        https://www.lagou.com/*
 // @match        https://www.liepin.com/*
+// @updateURL    https://greasyfork.org/zh-CN/scripts/452198-jobs-tools
 // @grant        none
 // ==/UserScript==
 
@@ -88,14 +89,22 @@
             }
             else if (window.location.href.startsWith('https://www.liepin.com/zhaopin/')) {
                 console.log('猎聘助手');
-                lst = document.querySelectorAll(".left-list-box .job-list-item");
+                lst = document.querySelectorAll(".job-list-box>div");
                 let len = lst.length;
                 el.innerText = "停止打招呼(" + ct + "/" + len + ")";
                 function callFn() {
                     if (len) {
-                        let sel = lst[ct - 1].querySelector(".chat-btn-box button");
+                        let sel = lst[ct - 1].querySelector('div');
+
+                        const mouseOver = Object.keys(sel).find(item => /^__reactEventHandlers/.exec(item))
+                        console.log('mouseOver', sel[mouseOver])
+                        sel[mouseOver].onMouseOver();
                         el.innerText = "停止打招呼(" + ct + "/" + len + ")";
-                        sel.click();
+
+                        const chatBtn = sel.querySelector('.chat-btn-box button')
+                        const chatKey = Object.keys(chatBtn).find(item => /^__reactEventHandlers/.exec(item))
+                        // console.log('chat-btn====', chatBtn, chatBtn[chatKey])
+                        chatBtn[chatKey].onClick();
                         ct++;
                         window.localStorage.setItem('job-ct', ct);
                         if(ct >= len) {
@@ -177,6 +186,18 @@
                     }, 2000)
                 }
             }
+        if(window.location.href.startsWith('https://www.liepin.com/job')) {
+                let reg = /https:\/\/www.liepin.com\/job\/\d*\.shtml.+/
+                if(reg.exec(window.location.href) !== null) {
+                    setTimeout(() => {
+                        // 发送简历
+                        document.querySelector('.chat-chat').click()
+                    }, 1000)
+                    setTimeout(() => {
+                        window.close();
+                    }, 2000)
+                }
+            }
             if (window.location.host === "www.zhipin.com") {
                 if (
                     window.location.href.startsWith(
@@ -237,7 +258,7 @@
                 ) {
                     retryCheck(
                         (_) => {
-                            let lst = document.querySelectorAll(".left-list-box .job-list-item");
+                            let lst = document.querySelectorAll(".job-list-box>div");
                             return lst && lst.length > 0;
                         },
                         100,
