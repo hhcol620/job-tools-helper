@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         jobs-tools-pro
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      1.1
 // @description
 // @author       You
 // @match        *
