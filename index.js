@@ -1,12 +1,14 @@
+
 // ==UserScript==
-// @name         jobs-tools-pro
+// @name         jobs-tools
 // @namespace    http://tampermonkey.net/
-// @version      1.1
-// @description
+// @version      0.9
+// @description  1.boss直聘 自动打招呼 2.拉勾 自动投递简历 3.猎聘 自动打招呼 
 // @author       You
-// @match        *
-// @updateURL    http://119.45.221.151/jobs-tools.js
-// @downloadURL    http://119.45.221.151/jobs-tools.js
+// @match        https://www.zhipin.com/*
+// @match        https://www.lagou.com/*
+// @match        https://www.liepin.com/*
+// @update       https://greasyfork.org/zh-CN/scripts/445590-jobs-tools
 // @grant        none
 // ==/UserScript==
 
