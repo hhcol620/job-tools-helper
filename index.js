@@ -140,7 +140,7 @@
                         sel.click();
                         setTimeout(() => {
                             location.reload();
-                        })
+                        }, 500)
                         ct++;
                         window.localStorage.setItem('job-ct', ct);
                     } else {
